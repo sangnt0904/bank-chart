@@ -1,0 +1,14 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: bank-account-route
+  namespace: bank-lab
+spec:
+  host: "{{ .Values.route.host }}"
+  to:
+    kind: Service
+    name: bank-account-svc
+  port:
+    targetPort: http
+  tls:
+    termination: edge

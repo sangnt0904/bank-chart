@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-account-service
+  namespace: bank-lab
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: bank-account-service
+  template:
+    metadata:
+      labels:
+        app: bank-account-service
+    spec:
+      containers:
+      - name: app
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          name: http
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://bank-database:5432/bank_db
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: secretpassword

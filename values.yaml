@@ -1,0 +1,16 @@
+replicaCount: 1
+
+image:
+  repository: image-registry.openshift-image-registry.svc:5000/bank-lab/account-service
+  tag: v1.0.3
+
+database:
+  image: postgres:15-alpine
+  storageClassName: crc-csi-hostpath-provisioner
+  size: 49Gi
+
+service:
+  port: 8080
+
+route:
+  host: bank-account-route-bank-lab.apps-crc.testing

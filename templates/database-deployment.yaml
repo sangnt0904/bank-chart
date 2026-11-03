@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-database
+  namespace: bank-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bank-database
+  template:
+    metadata:
+      labels:
+        app: bank-database
+    spec:
+      securityContext:
+        fsGroup: 1000670000
+      containers:
+      - name: postgres
+        image: {{ .Values.database.image }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsUser: 999
+        env:
+        - name: POSTGRES_PASSWORD
+          value: secretpassword
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: db-storage
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: bank-database-pvc

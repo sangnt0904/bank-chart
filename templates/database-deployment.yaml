@@ -14,7 +14,7 @@ spec:
         app: bank-database
     spec:
       securityContext:
-        fsGroup: 1000670000 # Khớp với dải UID của namespace trên OpenShift
+        fsGroup: 1000670000
       containers:
       - name: postgres
         image: postgres:15-alpine
